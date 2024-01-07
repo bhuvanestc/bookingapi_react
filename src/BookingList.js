@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import BookingForm from './BookingForm';
 
 const BookingList = () => {
- 
+    const navigate = useNavigate();
 
   const baseURL = "http://localhost:8080";
 
@@ -13,7 +14,7 @@ const BookingList = () => {
     console.log("Start");
 
     await axios
-      .get(baseURL + "/api/v1/booking/from/2023-12-11/to/2023-12-12")
+      .get(baseURL + "/api/v1/booking/from/2024-01-11/to/2024-01-12")
       .then((response) => {
         console.log("RESPONSE:", response);
         if (response.status === 200) {
@@ -45,26 +46,12 @@ const BookingList = () => {
             console.log(error.response.data);
         }
       });
-
   };
-  const cancelBookingClickHandler = async (id, email) => {
-    axios
-      .post(baseURL + "/api/v1/booking/cancel", { id, email })
-      .then((response) => {
-        console.log("RESPONSE:", response);
-        if (response.status === 500) {
-          console.log("Cancel Booking is Done!");
-          getBookingsClickHandler();
-        }
-      })
-      .catch((error) => {
-        console.log("ERROR:", error);
-        // display error message to user if error exist and its status was 400
-        if(error.response){
-            console.log(error.response.data);
-        }
-      });
-      
+  const [selectedBooking, setSelectedBooking] = useState(null);
+
+  const handleSuccessfulBooking = () => {
+    getBookingsClickHandler(); // Refresh the bookings list after successful booking
+    setSelectedBooking(null); // Hide the form after booking
   };
 
   return (
@@ -90,28 +77,34 @@ const BookingList = () => {
               <div key={booking.id} className="card mb-4 col-md-3">
                 <div className="card-body">
                   <h5 className="card-title">{booking.dateTime}</h5>
-                  
+                 
                 </div>
                 <div className="d-grid card-footer">
+          {selectedBooking === booking.id ? (
+                <BookingForm
+                  bookingId={booking.id}
+                  dateTime={booking.dateTime}
+                  onSuccessfulBooking={handleSuccessfulBooking}
+                />
+              ) : (
                   <button
                     type="button"
                     className={`btn btn-${booking.booked ? 'danger' : 'success'}`}
-                    onClick={() =>
-                      bookBookingClickHandler(
-                        booking.id,
-                        "test.test@test.se"
-                      )
-                    }
-                    disabled={`${booking.booked ? 'disabled' : ''}`}
+                    onClick={() =>setSelectedBooking(booking.id)}
+                    disabled={booking.booked}
                   >
                     {booking.booked ? 'Booked' : 'Available'}
                   </button>
+              )}
+            
                 </div>
               </div>
             ))}
           </div>
         </div>
+        
       </div>
+      
     </div>
   );
 };

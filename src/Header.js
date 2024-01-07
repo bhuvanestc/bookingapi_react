@@ -1,15 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 const Header = () => {
   const logo = 'logo.jpg';
 
-  const links = [{text: 'Home', href:'/home'}, 
-  {text: 'Booking List', href:'/booking'}, 
-  {text: 'Cancel Booking', href:'/cancel'},
-  {text: 'About', href:'/about'}
- ];
+  const links = [{text: 'Home', href:'/home'}, {text: 'BookingList', href:'/booking'},
+   {text: 'Cancel Booking', href:'/cancel'},{text: 'About', href:'/about'}];
 
   return (
     <div>
