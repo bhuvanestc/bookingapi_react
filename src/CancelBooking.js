@@ -13,10 +13,10 @@ const CancelBooking= ({ onCancelSuccess }) => {
       axios.put('http://localhost:8080/api/v1/booking/cancel',
        { id: bookingId, email });
        console.log('Response:', response);
-      if (response.status === 204) {
+      if (response.status === 204||200) {
         
      
-        setMessage('Booking successfully cancelled!'); 
+        setMessage('Booking successfully cancelled! Status Code:'+response.status); 
       } else {
         setMessage('Failed to cancel booking. Satus Code:'+response.status);
       }
