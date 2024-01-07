@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Navigate, useParams } from "react-router-dom";
 import Header from './Header';
 import BookingList from './BookingList';
-
+import CancelBooking from './CancelBooking';
 const RouterNav = () => {
     return (
         <div>
@@ -15,8 +15,6 @@ const RouterNav = () => {
                     <Route path='/home' element={<Home />} />
                     <Route path='/about' element={<About />} />
                     <Route path='/cancel' element={<CancelBooking />} />
-                    <Route path='/details/:id' element={<DetailsBooking />} />
-
                     <Route path='*' element={<NotFound />} />
 
                 </Routes>
@@ -37,13 +35,10 @@ const navigate = useNavigate();
     </div>)
 }
 const About = () => <h1>This is a Vaccination Booking Application using React.</h1>
-const CancelBooking = () => <h1>Cancel Booking Component</h1>;
 
 const DetailsBooking = () => {
     const params = useParams();
 
-    // using useEffect you can call get booking details by id and then set the response data 
-    // into the booking object and display data in a card
 
     return (
         <div>
